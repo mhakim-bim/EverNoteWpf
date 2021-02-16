@@ -1,0 +1,17 @@
+﻿<Window x:Class="EverNote.Views.FaceBookPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EverNote.Views"
+        mc:Ignorable="d"
+        xmlns:cef="clr-namespace:CefSharp;assembly=CefSharp"
+        xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        Title="FaceBookPage" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <TextBox DockPanel.Dock="Top" x:Name="FindElementText" Text="{Binding Path=Browser.Address,Mode=OneWayToSource}"/>
+        <Button  DockPanel.Dock="Top" x:Name="ClickOnPage" Click="ClickOnPage_OnClick">auto Fill</Button>
+        <Button  DockPanel.Dock="Top" x:Name="ShowDevTools" Click="ShowDevTools_OnClick">Show Dev Tools</Button>
+        <wpf:ChromiumWebBrowser x:Name="Browser" Address="http://www.facebook.com" ></wpf:ChromiumWebBrowser>
+    </DockPanel>
+</Window>

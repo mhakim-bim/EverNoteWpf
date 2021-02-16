@@ -1,0 +1,83 @@
+﻿<Window x:Class="EverNote.Views.NotesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EverNote.Views"
+        xmlns:vm ="clr-namespace:EverNote.ViewModels"
+        xmlns:uc ="clr-namespace:EverNote.Views.UserControl"
+        mc:Ignorable="d"
+        Title="NotesWindow" Height="400" Width="600">
+    <Window.Resources>
+        <vm:NotesViewModel x:Key="NotesViewModel"/>
+    </Window.Resources>
+
+    <DockPanel DataContext="{StaticResource NotesViewModel}">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="New Notebook"
+                          Command="{Binding NewNoteBookCommand}"/>
+                <MenuItem Header="New Note"
+                          Command="{Binding NewNoteCommand}"
+                          CommandParameter="{Binding SelectedNotebook}"/>
+                <Separator/>
+                <MenuItem Header="Exit"
+                          Click="MenuItem_OnClick"/>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="statusTextBlock"/>
+            </StatusBarItem>
+        </StatusBar>
+        <ListView Width="140" DockPanel.Dock="Left"
+                  Background="MidnightBlue"
+                  ItemsSource="{Binding Notebooks}"
+                  SelectedItem="{Binding SelectedNotebook,
+            Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                   <uc:Notebook DisplayNotebook="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView Width="140" DockPanel.Dock="Left"
+                  ItemsSource="{Binding Notes}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <uc:NotesControl Note="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <ToggleButton Content="Speech"
+                        x:Name="SpeechButton"
+                        Click="SpeechButton_OnClick"/>
+                <ToggleButton x:Name="BoldButton" Click="BoldButton_OnClick">
+                    <TextBlock Text="B" FontWeight="Bold"/>
+                </ToggleButton>
+                <ToggleButton x:Name="ItalicButton" Click="ItalicButton_OnClick">
+                    <TextBlock Text="I" FontStyle="Italic"/>
+                </ToggleButton>
+                <ToggleButton x:Name="UnderlineButton" Click="UnderlineButton_OnClick">
+                    <TextBlock Text="U" TextDecorations="Underline"/>
+                </ToggleButton>
+                <ComboBox x:Name="FontFamilyComboBox"
+                          Width="100"
+                          SelectionChanged="FontFamilyComboBox__OnSelectionChanged"/>
+                <ComboBox x:Name="FontSizeComboBox" 
+                          Width="50"
+                          IsEditable="True"
+                         TextInput="FontSizeComboBox_OnTextInput"
+                          SelectionChanged="FontSizeComboBox_OnSelectionChanged"/>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid>
+            <RichTextBox x:Name="RichTextBox"
+                         SelectionChanged="RichTextBox_OnSelectionChanged"
+                         TextChanged="RichTextBox_OnTextChanged"/>
+        </Grid>
+    </DockPanel>
+    
+</Window>
